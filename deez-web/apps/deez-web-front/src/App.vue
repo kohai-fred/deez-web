@@ -1,7 +1,12 @@
-<script setup></script>
+<script setup>
+    // import { useQueryProvider } from "vue-query";
+    // useQueryProvider();
+    import Header from "./components/Header.vue";
+</script>
 
 <template>
     <div class="container">
+        <Header />
         <main>
             <RouterView />
         </main>

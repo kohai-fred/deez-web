@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "vue": "^3.2.25",
+    "vue-query": "^1.19.1",
     "vue-router": "4"
   },
   "devDependencies": {
