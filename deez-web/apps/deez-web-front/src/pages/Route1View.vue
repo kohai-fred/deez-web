@@ -10,14 +10,6 @@
         const response = await usePlaylists();
         playlists.value = response.data;
     });
-    async function getResult() {
-        console.log("this", input.value);
-        const search = input.value;
-        const response = await querySearch(search, {
-            order: "ALBUM_DESC",
-        });
-        console.log("RESPONSE", response);
-    }
 </script>
 
 <template>
@@ -29,7 +21,7 @@
         v-model="input"
     />
     <ul v-for="playlist in playlists">
-        <RouterLink :to="`/info/${playlist.id}`">
+        <RouterLink :to="`/album/:id`">
             {{ playlist.title }}
         </RouterLink>
     </ul>

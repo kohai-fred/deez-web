@@ -1,9 +1,16 @@
 import { reactive } from "vue";
 
-const state = reactive({
-    results: [],
+const search = reactive({
+    data: [],
 });
-
+const info = reactive({
+    data: {
+        album: {},
+        artist: {},
+        track: {},
+    },
+});
 export default {
-    state,
+    search,
+    info,
 };
