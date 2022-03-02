@@ -10,7 +10,15 @@ const info = reactive({
         track: {},
     },
 });
+const state = reactive({
+    searchName: "",
+    searchResults: [],
+    album: {},
+    artist: {},
+    track: {},
+});
 export default {
     search,
     info,
+    state,
 };

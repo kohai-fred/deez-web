@@ -1,7 +1,15 @@
 import fastify from "fastify";
 import fastifyCors from "fastify-cors";
 import got from "got";
-import { url } from "inspector";
+
+/**
+ * * I create a Back-end to circumvent
+ * * the CORS Policy  with
+ * * the DEEZER API
+ *
+ * * The request.query and request.params are provided by
+ * * Deez-Web-front/src/hooks/index.js
+ */
 
 const app = fastify();
 const BASE_URL = "https://api.deezer.com";
@@ -19,7 +27,7 @@ app.get("/playlists", async (request, reply) => {
 
 app.get("/search", async (request, reply) => {
     const response = await got(
-        `${BASE_URL}/search?q=${request.query.q}&order=${request.query.order}`
+        `${BASE_URL}/search?q=${request.query.filter}:"${request.query.q}"&order=${request.query.order}`
     );
     reply.send(response.body);
 });
