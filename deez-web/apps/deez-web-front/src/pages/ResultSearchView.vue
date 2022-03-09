@@ -1,119 +1,71 @@
 <script setup>
     import Store from "../store/index";
-    import { toRaw } from "vue";
     import { useRoute, useRouter, RouterLink } from "vue-router";
-    import { queryInfo } from "../hooks";
+
     const store = Store.state;
+    const methods = Store.methods;
     const route = useRoute();
     const router = useRouter();
-    const title = route.query.search;
 
     if (store.searchResults.length <= 0) router.push({ path: "/" });
-
-    console.log("STORE ROUTE 3", toRaw(store).searchResults);
-    console.log("Route ROUTE 3", route.query);
-
-    async function getInfo(id, type) {
-        const response = await queryInfo({ id: id.toString(), type });
-        router.push({
-            path: `/${type}/${id}`,
-        });
-    }
 </script>
 
 <template>
     <div class="container" :key="$route">
-        <h1>Résultat de la recherche :{{ store.searchName }}</h1>
+        <p class="fs-3">
+            Résultat de la recherche :
+            <span class="text-capitalize">{{ store.searchName }}</span>
+        </p>
+
         <div
-            class="card"
+            class="card_result d-flex rounded mb-3 pb-lg-3 shadow-sm"
             v-for="result in store.searchResults"
             :key="result.id"
         >
-            <!-- <template
-                v-if="
-                    $route.query.order === 'TRACK_ASC' ||
-                    $route.query.order === 'ALBUM_ASC'
-                "
-            > -->
-            <RouterLink :to="`/album/${result.album.id}`">
+            <div class="car_img_container rounded-circle overflow-hidden me-2">
                 <img
                     :src="result.album.cover_medium"
                     :alt="'Photo de l\'album: ' + result.album.title"
-                    @click="getInfo(result.album.id, 'album')"
+                    class="card_img"
                 />
-            </RouterLink>
-            <button @click="getInfo(result.album.id, 'album')">TEST</button>
-            <div class="card_content">
-                <h1>
-                    <RouterLink
-                        :to="`/album/${result.album.id}`"
-                        @click="getInfo(result.album.id, 'album')"
-                    >
-                        {{ result.album.title }}
-                    </RouterLink>
-                </h1>
-                <RouterLink
-                    :to="`/artist/${result.artist.id}`"
-                    class="Artiste"
-                    @click="getInfo(result.artist.id, 'artist')"
-                >
-                    {{ result.artist.name }}
-                </RouterLink>
-                <span>
-                    Vous écoutez :
-                    <RouterLink
-                        :to="`/track/${result.id}`"
-                        @click="getInfo(result.id, 'track')"
-                    >
-                        {{ result.title }}
-                    </RouterLink>
-                </span>
-                <audio :src="result.preview" controls></audio>
-                <RouterLink :to="`/album/${result.album.id}`">
-                    <button>i</button>
-                </RouterLink>
-                <span>Rank :{{ result.rank }}</span>
+                <i
+                    class="bi bi-play d-flex"
+                    @click="methods.addStoreCurrentTrack(result)"
+                ></i>
             </div>
-            <!-- </template>
-            <template v-else>
-                <RouterLink :to="`/artist/${result.artist.id}`">
-                    <img
-                        :src="result.artist.picture_medium"
-                        :alt="'Photo de l\'artiste: ' + result.artist.name"
-                        @click="getInfo(result.artist.id, 'artist')"
-                    />
-                </RouterLink>
-                <div class="card_content">
-                    <h1 class="artiste">
+
+            <div class="card-content col-11 row">
+                <div class="col-10 overflow-hidden">
+                    <p class="fs-6 mb-0">
+                        <RouterLink
+                            :to="`/album/${result.album.id}`"
+                            class="a-text-break d-block"
+                            @click="methods.getInfo(result.album.id, 'album')"
+                        >
+                            {{ result.album.title }}
+                        </RouterLink>
+                    </p>
+                    <p class="fs-6 mb-0">
                         <RouterLink
                             :to="`/artist/${result.artist.id}`"
-                            @click="getInfo(result.artist.id, 'artist')"
+                            class="a-text-break d-block"
+                            @click="methods.getInfo(result.artist.id, 'artist')"
                         >
                             {{ result.artist.name }}
                         </RouterLink>
-                    </h1>
-                    <RouterLink
-                        :to="`/album/${result.album.id}`"
-                        @click="getInfo(result.album.id, 'album')"
-                    >
-                        {{ result.album.title }}
-                    </RouterLink>
-                    <span>
-                        Vous écoutez :
-                        <RouterLink
-                            :to="`/track/${result.id}`"
-                            @click="getInfo(result.id, 'track')"
-                        >
-                            {{ result.title }}
-                        </RouterLink>
-                    </span>
-                    <audio :src="result.preview" controls></audio>
-                    <RouterLink :to="`/track/${result.id}`">
-                        <button>i</button>
-                    </RouterLink>
-                    <span>Rank :{{ result.rank }}</span>
+                    </p>
                 </div>
-            </template> -->
+                <div
+                    class="col-2 d-flex justify-content-end align-items-center"
+                >
+                    <RouterLink :to="`/artist/${result.artist.id}`">
+                        <i
+                            class="bi bi-arrow-right-circle fs-4"
+                            @click="methods.getInfo(result.artist.id, 'artist')"
+                        ></i>
+                    </RouterLink>
+                </div>
+            </div>
         </div>
     </div>
 </template>

@@ -1,11 +1,16 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import { createRouter, createWebHistory } from "vue-router";
+
 // import { VueQueryPlugin } from "vue-query";
 
 const router = createRouter({
     routes: [
-        { path: "/", component: () => import("./pages/Route1View.vue") },
+        {
+            path: "/",
+            name: "home",
+            component: () => import("./pages/HomeView.vue"),
+        },
         {
             path: "/results",
             component: () => import("./pages/ResultSearchView.vue"),
@@ -21,6 +26,10 @@ const router = createRouter({
         {
             path: "/track/:id",
             component: () => import("./pages/TrackView.vue"),
+        },
+        {
+            path: "/favorites",
+            component: () => import("./pages/FavoritesView.vue"),
         },
     ],
     history: createWebHistory(import.meta.env.BASE_URL),

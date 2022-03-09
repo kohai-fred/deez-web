@@ -34,15 +34,19 @@ app.get("/search", async (request, reply) => {
 
 app.get("/album/:id", async (request, reply) => {
     const response = await got(`${BASE_URL}/album/${request.params.id}`);
-    reply.send(response.body);
+    reply.send([response.body]);
 });
 app.get("/artist/:id", async (request, reply) => {
-    const response = await got(`${BASE_URL}/artist/${request.params.id}`);
-    reply.send(response.body);
+    const responseArtist = await got(`${BASE_URL}/artist/${request.params.id}`);
+    const responseTracklist = await got(
+        `${BASE_URL}/artist/${request.params.id}/top?limit=25`
+    );
+    const response = [responseArtist.body, responseTracklist.body];
+    reply.send(response);
 });
 app.get("/track/:id", async (request, reply) => {
     const response = await got(`${BASE_URL}/track/${request.params.id}`);
-    reply.send(response.body);
+    reply.send([response.body]);
 });
 
 app.listen(8080);

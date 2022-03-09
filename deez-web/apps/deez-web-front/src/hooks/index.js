@@ -27,7 +27,6 @@ export function usePlaylists() {
  * @param {Obeject} query filter match with Advenced search in API Deezer
  */
 export async function querySearch(query) {
-    console.log("query", query);
     const response = await fetch(
         `${BASE_URL}/search?q=${query.search}&order=${query.order}&filter=${query.filter}`
     ).then((res) => res.json());
@@ -44,6 +43,5 @@ export async function queryInfo(query) {
     const response = await fetch(`${BASE_URL}/${query.type}/${query.id}`).then(
         (res) => res.json()
     );
-    console.log("queryInfo = ", response);
     store[query.type] = response;
 }
